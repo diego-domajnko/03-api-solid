@@ -4,9 +4,13 @@
   "description": "aula 03 formação nodejs rocketseat",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx --trace-warnings src/server.ts",
+    "dev": "tsx --watch src/server.ts",
     "build": "tsup src --out-dir build",
-    "start": "node build/server.js"
+    "start": "node build/server.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
@@ -15,12 +19,21 @@
     "@types/node": "20.11.30",
     "@typescript-eslint/eslint-plugin": "7.4.0",
     "@typescript-eslint/parser": "7.4.0",
+    "@vitest/coverage-v8": "1.4.0",
+    "@vitest/ui": "1.4.0",
     "eslint": "8.57.0",
+    "prisma": "5.11.0",
     "tsup": "8.0.2",
     "tsx": "4.7.1",
-    "typescript": "5.4.3"
+    "typescript": "5.4.3",
+    "vite-tsconfig-paths": "4.3.2",
+    "vitest": "1.4.0"
   },
   "dependencies": {
+    "@prisma/client": "5.11.0",
+    "@types/bcrypt": "5.0.2",
+    "bcrypt": "5.1.1",
+    "dayjs": "1.11.10",
     "dotenv": "16.4.5",
     "fastify": "4.26.2",
     "zod": "3.22.4"
