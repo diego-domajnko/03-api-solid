@@ -12,7 +12,7 @@ describe("Logout (e2e)", () => {
     await app.close();
   });
 
-  it.only("should be able to logout the logged user", async () => {
+  it("should be able to logout the logged user", async () => {
     const { token } = await createAndAuthUser(app);
 
     const res = await request(app.server)
