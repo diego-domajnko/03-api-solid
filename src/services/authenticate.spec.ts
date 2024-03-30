@@ -46,7 +46,7 @@ describe("authenticate", () => {
 
     expect(async () => {
       await sut.execute({
-        email: "jhodoen@example.com",
+        email: "jhondoe@example.com",
         password: "1234567",
       });
     }).rejects.toBeInstanceOf(InvalidCredentialsError);

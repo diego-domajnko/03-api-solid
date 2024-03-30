@@ -1,11 +1,27 @@
+import fastifyCookie from "@fastify/cookie";
+import fastifyJwt from "@fastify/jwt";
 import fastify from "fastify";
 import { ZodError } from "zod";
 import { env } from "./env";
-import { appRoutes } from "./http/routes";
+import { usersRoutes } from "./http/controllers/users/routes";
+import { gymRoutes } from "./http/controllers/gyms/routes";
+import { checkinsRoutes } from "./http/controllers/checkins/routes";
 
 export const app = fastify();
 
-app.register(appRoutes);
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+  cookie: {
+    cookieName: "token",
+    signed: false,
+  },
+});
+app.register(fastifyCookie);
+app.register(usersRoutes);
+app.register(gymRoutes, {
+  prefix: "/gyms",
+});
+app.register(checkinsRoutes);
 app.setErrorHandler((error, _, res) => {
   if (error instanceof ZodError) {
     res.status(400).send({ message: "Validation error.", issues: error.format() });

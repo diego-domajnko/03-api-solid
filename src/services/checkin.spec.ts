@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { CheckinService } from "./checkin.services";
 import { MaxNumberOfCheckinsError } from "./errors/maxNumbersOfCheckinsError";
 import { MaxDistanceError } from "./errors/maxDistanceError";
+import { ResourceNotFoundError } from "./errors/resourceNotFoundError";
 
 let checkinsRepository: InMemoryCheckinsRepository;
 let gymsRepository: InMemoryGymsRepository;
@@ -43,6 +44,17 @@ describe("Checkin use case", () => {
     });
 
     expect(checkin.id).toEqual(expect.any(String));
+  });
+
+  it("should not be able to make a checkin in a gym that does not exist", async () => {
+    expect(async () => {
+      await sut.execute({
+        userId: "1",
+        gymId: "5",
+        userLatitude: 0,
+        userLongitude: 0,
+      });
+    }).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
 
   it("should not be able to make more then one checkin in the same day", async () => {

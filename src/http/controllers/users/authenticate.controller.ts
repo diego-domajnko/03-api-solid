@@ -12,13 +12,33 @@ export async function authenticateController(req: FastifyRequest, res: FastifyRe
 
   try {
     const authenticateService = makeAuthenticateService();
-    await authenticateService.execute({ email, password });
+    const { user } = await authenticateService.execute({ email, password });
+
+    const token = await res.jwtSign(
+      {
+        role: user.role,
+      },
+      {
+        sign: {
+          sub: user.id,
+        },
+      }
+    );
+
+    res
+      .setCookie("token", token, {
+        path: "/",
+        secure: true,
+        httpOnly: true,
+        sameSite: "strict",
+        maxAge: 60 * 60 * 24 * 7, // 7 days
+      })
+      .status(200)
+      .send({ token });
   } catch (error) {
     if (error instanceof InvalidCredentialsError) {
       return res.status(400).send({ message: error.message });
     }
     throw error;
   }
-
-  res.status(200).send();
 }
