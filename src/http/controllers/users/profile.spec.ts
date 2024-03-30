@@ -12,7 +12,7 @@ describe("Profile (e2e)", () => {
     await app.close();
   });
 
-  it.only("should be able to access the profile", async () => {
+  it("should be able to access the profile", async () => {
     const { token } = await createAndAuthUser(app);
 
     const {
